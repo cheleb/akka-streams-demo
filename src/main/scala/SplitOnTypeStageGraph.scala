@@ -4,11 +4,11 @@ import akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}
 /**
   * Created by chelebithil on 28/01/2016.
   */
-class SplitOnTypeStageGraph[BB , CC ] extends GraphStage[FanOutShape2[Any, BB, CC]] {
+class SplitOnTypeStageGraph extends GraphStage[FanOutShape2[A, B, C]] {
 
   override def initialAttributes = Attributes.name("Split")
 
-  override val shape = new FanOutShape2[Any, BB, CC]("Split")
+  override val shape = new FanOutShape2[A, B, C]("Split")
 
   def in = shape.in
 
@@ -20,7 +20,8 @@ class SplitOnTypeStageGraph[BB , CC ] extends GraphStage[FanOutShape2[Any, BB, C
   override def createLogic(inheritedAttributes: Attributes): GraphStageLogic = new GraphStageLogic(shape) {
     setHandler(in, new InHandler {
       override def onPush(): Unit = {
-        grab(in) match {
+        val aa: A = grab(in)
+        aa match {
           case c: C =>
             if (isAvailable(out1))
               push(out1, c)

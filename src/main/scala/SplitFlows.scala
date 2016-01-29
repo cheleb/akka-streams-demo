@@ -7,8 +7,8 @@ import akka.stream.scaladsl._
   */
 
 trait A
-case class B(i: Int)
-case class C(i: Int)
+case class B(i: Int) extends A
+case class C(i: Int) extends A
 
 case class D(i: Int) extends A
 case class E(i: Int) extends A
@@ -26,8 +26,8 @@ object SplitFlows extends App with StreamRunner {
     //val src = Source(1 to 10).map(D(_))
     //val split = builder.add(new SplitStageGraph[D,E,F](a=>if(a.i%2==0)Left(E(a.i))else Right(F(a.i))))
 
-    val src =  Source(1 to 10).map(x=>if(x%2==0)B(x)else C(x))
-    val split = builder.add(new SplitOnTypeStageGraph[B,C])
+    val src =  Source(1 to 10).map(x=>if(x%2==0)C(x)else B(x))
+    val split = builder.add(new SplitOnTypeStageGraph)
     val odd = Sink.foreach[Any](x => println(s"odd $x"))
     val even = Sink.foreach[Any](x => println(s"even $x"))
 

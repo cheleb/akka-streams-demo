@@ -5,7 +5,7 @@ import akka.stream.stage.{OutHandler, InHandler, GraphStageLogic, GraphStage}
 /**
   * Created by chelebithil on 28/01/2016.
   */
-class SplitStageGraph[A, B, C](p: A => Either[B, C]) extends GraphStage[FanOutShape2[A, B, C]] {
+class SplitStageGraph(p: A => Either[B, C]) extends GraphStage[FanOutShape2[A, B, C]] {
 
   override def initialAttributes = Attributes.name("Split")
 
